@@ -1,0 +1,28 @@
+﻿@page
+@using Cade.BookStore.Localization
+@using Cade.BookStore.Web.Pages.Books
+@using Microsoft.Extensions.Localization
+@model IndexModel
+@inject IStringLocalizer<BookStoreResource> LocalBookSR
+@section scripts
+{
+    <abp-script src="/Pages/Books/Index.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@LocalBookSR["Books"]</abp-card-title>
+            </abp-column>
+
+            <abp-column size-md="_6" class="text-right">
+                <abp-button id="NewBookButton" text="@LocalBookSR["NewBook"].Value" icon="plus" button-type="Primary"/>
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+
+    <abp-card-body>
+        <abp-table striped-rows="true" id="BooksTable"></abp-table>
+    </abp-card-body>
+</abp-card>
