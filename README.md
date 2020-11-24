@@ -54,3 +54,31 @@
         }
     }
     ```
+## ABP Test
+* `Xunit` as the main test framework.
+    * using Xunit;
+    * [Fact]
+        ```cs
+        //test _bookAppService GetList
+        [Fact]
+        public async Task Should_Get_List_Of_Books()
+        {
+            //Action
+            var result = await _bookAppService.GetListAsync(new PagedAndSortedResultRequestDto());
+
+            //Assert
+            result.TotalCount.ShouldBeGreaterThan(0);
+            result.Items.ShouldContain(b => b.Name == "1984");
+        }
+        ```
+    * command
+        ```sh
+        dotnet test ProjectName
+        ```
+* `Shoudly` as the assertion library.
+    * using Shouldly;
+    * ShouldBeGreaterThan(num);
+    * ShouldContain(xxx);
+    * ShouldNotBe(xxx);
+
+* `NSubstitute` as the mocking library.
