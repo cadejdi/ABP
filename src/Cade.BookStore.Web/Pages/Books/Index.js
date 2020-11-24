@@ -23,12 +23,15 @@
                             [ //per row
                                 {   //edit function
                                     text: bs('Edit'),
+                                    //"abp.auth.isGranted()" checks a permission that is defined
+                                    visible: abp.auth.isGranted('BookStore.Books.Update'),   //Whether the control displays the editing function
                                     action: function (data) {
                                         editModal.open({id: data.record.id});   //open the edit dialog
                                     }
                                 },
                                 {   //delete function
                                     text: bs('Delete'),
+                                    visible: abp.auth.isGranted('BookStore.Books.Delete'),  //Whether the control displays the deleting function
                                     confirmMessage: function (data) {
                                         return bs('BookDeletionConfirmationMessage', data.record.name);
                                     },

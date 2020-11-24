@@ -1,4 +1,5 @@
 ﻿using Cade.BookStore.Dtos;
+using Cade.BookStore.Permissions;    //BookStorePermissions
 using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -22,7 +23,11 @@ namespace Cade.BookStore.Books
         //ABP automatically creates default repositories for each aggregate root (or entity)
         public BookAppService(IRepository<Book, Guid> repository): base(repository)
         {
-
+            GetPolicyName = BookStorePermissions.Books.Default;
+            GetListPolicyName = BookStorePermissions.Books.Default;
+            CreatePolicyName = BookStorePermissions.Books.Create;
+            UpdatePolicyName = BookStorePermissions.Books.Update;
+            DeletePolicyName = BookStorePermissions.Books.Delete;
         }
     }
 }

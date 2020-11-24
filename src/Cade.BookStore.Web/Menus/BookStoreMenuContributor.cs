@@ -5,6 +5,7 @@ using Cade.BookStore.Localization;
 using Cade.BookStore.MultiTenancy;
 using Volo.Abp.TenantManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
+using Cade.BookStore.Permissions;
 
 namespace Cade.BookStore.Web.Menus
 {
@@ -30,19 +31,38 @@ namespace Cade.BookStore.Web.Menus
 
             context.Menu.Items.Insert(0, new ApplicationMenuItem(BookStoreMenus.Home, l["Menu:Home"], "~/"));
 
-            context.Menu.AddItem(
-                new ApplicationMenuItem(
+            var bookStoreMenu = new ApplicationMenuItem(
                     "BooksStore",
                     l["Menu:BookStore"],
                     icon: "fa fa-book"
-                ).AddItem(
-                    new ApplicationMenuItem(
-                        "BooksStore.Books",
-                        l["Menu:Books"],
-                        url: "/Books"
-                    )
-                )
-            );
+                );
+            context.Menu.AddItem(bookStoreMenu);
+
+            //check the permission
+            if (await context.IsGrantedAsync(BookStorePermissions.Books.Default)) 
+            {
+                bookStoreMenu.AddItem(
+                        new ApplicationMenuItem(
+                            "BooksStore.Books",
+                            l["Menu:Books"],
+                            url: "/Books"
+                        )
+                    );
+            }
+
+            //context.Menu.AddItem(
+            //    new ApplicationMenuItem(
+            //        "BooksStore",
+            //        l["Menu:BookStore"],
+            //        icon: "fa fa-book"
+            //    ).AddItem(
+            //        new ApplicationMenuItem(
+            //            "BooksStore.Books",
+            //            l["Menu:Books"],
+            //            url: "/Books"
+            //        )
+            //    )
+            //);
         }
     }
 }

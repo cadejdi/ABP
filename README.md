@@ -82,3 +82,32 @@
     * ShouldNotBe(xxx);
 
 * `NSubstitute` as the mocking library.
+
+## ABP Permisssion
+* `ABP Framework`提供了基于`ASP.NET Core`权限基础框架的`权限系统`。
+* xxxx.Application.Contract
+    * BookStorePermissions //定义许可证名称
+        ```cs
+        public static class BookStorePermissions
+        {
+            public const string GroupName = "BookStore";
+
+            public static class Books
+            {
+                public const string Default = GroupName + ".Books";
+                //...
+            }
+        }
+        ```
+    * BookStorePermissionDefinitionProvider 定义许可证
+    * xxx.Application 
+        * BookAppService //利用许可证进行授权
+    * xxx.Web
+        * BookStoreWebModule &rarr; ConfigureServices //没有权限的情况下访问页面进行重定向
+            ```cs
+            Configure<RazorPagesOptions>(options =>
+            {
+                options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
+            });
+            ```
+    * 利用`AuthorizationService.IsGrantedAsync(BookStorePermissions.Books.xxxxx)`进行权限判断，从而进行一些权限范围的划分

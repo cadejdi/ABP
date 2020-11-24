@@ -34,6 +34,8 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Cade.BookStore.Permissions;
 
 namespace Cade.BookStore.Web
 {
@@ -80,6 +82,14 @@ namespace Cade.BookStore.Web
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
             ConfigureSwaggerServices(context.Services);
+
+            //Make unauthorized users redirected to the login Page
+            Configure<RazorPagesOptions>(options =>
+            {
+                options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
+                options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
+                options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Update);
+            });
         }
 
         private void ConfigureUrls(IConfiguration configuration)

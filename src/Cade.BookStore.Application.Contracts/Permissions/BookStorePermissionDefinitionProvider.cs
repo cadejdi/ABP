@@ -8,10 +8,14 @@ namespace Cade.BookStore.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var myGroup = context.AddGroup(BookStorePermissions.GroupName);
+            var bookStoreGroup = context.AddGroup(BookStorePermissions.GroupName, L("Permission:BookStore"));
 
             //Define your own permissions here. Example:
             //myGroup.AddPermission(BookStorePermissions.MyPermission1, L("Permission:MyPermission1"));
+            var booksPermission = bookStoreGroup.AddPermission(BookStorePermissions.Books.Default, L("Permission:Books"));
+            booksPermission.AddChild(BookStorePermissions.Books.Create, L("Permission:Books.Create"));
+            booksPermission.AddChild(BookStorePermissions.Books.Update, L("Permission:Books.Update"));
+            booksPermission.AddChild(BookStorePermissions.Books.Delete, L("Permission:Books.Delete"));
         }
 
         private static LocalizableString L(string name)
