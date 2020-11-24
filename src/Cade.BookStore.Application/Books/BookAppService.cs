@@ -13,10 +13,10 @@ namespace Cade.BookStore.Books
             ReadBookDto,       //Used to show books
             Guid,              //Primary key of the book entity
             PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateBookDto>,        //Used to create/update a book
+            CreateUpdateBookDto>        //Used to create/update a book
      */
     //uses IObjectMapper service (see) to map Book objects to BookDto objects and CreateUpdateBookDto objects to Book objects. 
-    public class BookAppService :CrudAppService<Book, ReadBookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>, IBookAppService 
+    public class BookAppService : CrudAppService<Book, ReadBookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>, IBookAppService 
     {
         //injects IRepository<Book, Guid> which is the default repository for the Book entity
         //ABP automatically creates default repositories for each aggregate root (or entity)

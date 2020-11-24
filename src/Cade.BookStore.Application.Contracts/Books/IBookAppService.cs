@@ -15,7 +15,7 @@ namespace Cade.BookStore.Books
      *          PagedAndSortedResultRequestDto, //Used for paging/sorting
      *          CreateUpdateBookDto>     //Used to create/update a book                                         
      */
-    public interface IBookAppService:ICrudAppService<ReadBookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
+    public interface IBookAppService : ICrudAppService<ReadBookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
     { 
     
     }

@@ -27,9 +27,30 @@
 * `Guid`也称为`Uuid`用于表格的一个主键，有时也专指微软对`uuid`标准的实现，是一种由算法生成的二进制长度为128位的数字标识符。在理想情况下，任何计算机之间都不会生成两个相同的GUID。GUID的优点允许开发人员随时创建新值，而无需从数据库服务器检查值的唯一性。
 * **<font color="red">问题</font>**：很多数据库在创建主键时，为了充分发挥数据库的性能，会自动在该列上创建聚集索引。聚集索引确定表中数据的物理顺序，类似于电话簿，按姓氏排列数据。由于聚集索引规定数据在表中的物理存储顺序，因此一个表也只能包含一个聚集索引。它能够快速查找到数据，但是如果插入数据库的主键不在列表的末尾，向表中添加新行时就非常缓慢。例如：
 
-|ID|Name|
-|--|----|
-|1|Tom|
-|3|Cade|
-|6|Jack|
+    |ID|Name|
+    |--|----|
+    |1|Tom|
+    |3|Cade|
+    |6|Jack|
 **在上表中插入一个`ID为7`的数据，非常容易，直接查到末尾即可，但是如果插入`ID为4`的数据，就得先将最后一行的数据下移，再进行插入。又因为`GUID`时随机数据，所以插入数据时会随时涉及到数据的移动问题，从而导致插入速度会减慢，因此出现一种有规则的GUID生成方式，即有序GUID，保证每次GUID都比上一数据大**
+
+
+## ABP Framework Related
+* xxxx.Domain &rarr; 定义`Book`实体
+* xxxx.Application.Contract
+    * 定义一个`DTO`映射实体到应用
+    * 定义`IBookAppService`继承`ICrudAppService`包含增删改查方法
+* xxxx.Application
+    * xxxxApplicationAutoMapperProfile &rarr; 实现DTO映射
+    * 定义类`BookAppService`实现上述两个接口
+    ```cs
+    public class BookAppService : CrudAppService<Book, ReadBookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>, IBookAppService 
+    {
+        //injects IRepository<Book, Guid> which is the default repository for the Book entity
+        //ABP automatically creates default repositories for each aggregate root (or entity)
+        public BookAppService(IRepository<Book, Guid> repository): base(repository)
+        {
+
+        }
+    }
+    ```
